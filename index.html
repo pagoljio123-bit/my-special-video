@@ -3,168 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Rose Day! 🌹</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Happy Rose Day, Priyanka ❤️</title>
+    
+    <!-- প্রিমিয়াম ফন্ট -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Orbitron:wght@500;700&family=Hind+Siliguri:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
     <style>
+        /* --- ১. অ্যাডভান্সড সেটআপ --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { 
             height: 100%; width: 100%; 
             background-color: #000; 
             overflow: hidden; 
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Hind Siliguri', sans-serif;
+            display: flex; justify-content: center; align-items: center;
         }
 
-        /* --- 1. অ্যাডভান্সড RGB অ্যানিমেশন লেয়ার --- */
-        .rgb-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            background: #000;
-        }
-
-        /* এই সেই জাদুকরী গ্লোয়িং বর্ডার */
-        .rgb-container::before {
-            content: '';
-            position: absolute;
-            width: 150%; /* স্ক্রিনের চেয়ে বড় যাতে কোণাগুলো কভার হয় */
-            height: 150%;
-            background: conic-gradient(
-                #ff0000, #ff00ff, #0000ff, #00ffff, 
-                #00ff00, #ffff00, #ff7000, #ff0000
-            );
-            animation: rotate 4s linear infinite;
-            z-index: 1;
-        }
-
-        /* গ্লোয়িং ইফেক্ট আরো স্মুথ করার জন্য দ্বিতীয় লেয়ার */
-        .rgb-container::after {
-            content: '';
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            background: conic-gradient(
-                #ff0000, #ff00ff, #0000ff, #00ffff, 
-                #00ff00, #ffff00, #ff7000, #ff0000
-            );
-            animation: rotate 4s linear infinite;
-            z-index: 1;
-            filter: blur(60px); /* ব্লার ইফেক্ট যা আলো ছড়াবে */
-            opacity: 0.8;
-        }
-
-        /* কালো মাস্ক যাতে ভিডিওর মাঝখানটা পরিষ্কার থাকে */
-        .video-mask {
-            position: absolute;
-            inset: 6px; /* বর্ডারের থিকনেস (Thickness) */
-            background: #000;
-            z-index: 2;
-            border-radius: 10px; /* কোণাগুলো একটু গোল হবে */
-            overflow: hidden;
-        }
-
-        /* রোটেশন অ্যানিমেশন */
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* --- 2. ভিডিও প্লেয়ার --- */
-        iframe {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0; left: 0;
-            z-index: 3;
-            border: none;
-            /* ভিডিওকে একটু জুম করা যাতে কালো বর্ডার না থাকে */
-            transform: scale(1.05); 
-            pointer-events: none;
-        }
-
-        /* --- 3. লক স্ক্রিন --- */
-        #security-screen {
+        /* --- ২. ডায়নামিক রোজ ব্যাকগ্রাউন্ড --- */
+        #galaxy-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
+            background: radial-gradient(circle at center, #2b0000 0%, #000000 100%); /* লালচে ভাব */
+            z-index: 0; overflow: hidden;
+        }
+        
+        .petal {
+            position: absolute; font-size: 20px;
+            animation: fall linear infinite;
+            text-shadow: 0 0 5px rgba(255, 0, 85, 0.5);
+        }
+
+        /* --- ৩. স্ক্রিন ১: ওয়েলকাম (হার্ট বিট) --- */
+        #welcome-screen {
+            position: absolute; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 100; transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 300; transition: opacity 1s ease;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
         }
-        
-        .rose-icon { font-size: 80px; margin-bottom: 20px; animation: heartbeat 1.5s infinite; }
-        h1 { 
-            color: #ff0055; 
-            font-family: 'Dancing Script', cursive; 
-            font-size: 2.8rem; 
-            margin-bottom: 30px; 
-            text-shadow: 0 0 20px #ff0055;
+
+        .neon-rose {
+            font-size: 100px; margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px #ff0055) drop-shadow(0 0 40px #ff0000);
+            animation: float 3s ease-in-out infinite;
+            cursor: pointer;
         }
-        
-        .pass-input {
-            padding: 15px 25px; border-radius: 50px; 
+
+        .start-btn {
+            padding: 15px 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px; color: #ff0055;
+            background: rgba(20, 0, 5, 0.8);
             border: 2px solid #ff0055;
-            background: rgba(0,0,0,0.5); color: #fff; 
-            font-size: 18px; text-align: center; letter-spacing: 2px;
-            outline: none; width: 80%; max-width: 300px; margin-bottom: 25px;
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+            cursor: pointer;
+            text-transform: uppercase; letter-spacing: 2px;
+            animation: glow 2s infinite alternate;
+        }
+
+        /* --- ৪. স্ক্রিন ২: সিনেম্যাটিক টেক্সট (অটোমেটিক) --- */
+        #text-screen {
+            position: absolute; width: 100%; height: 100%;
+            display: none; justify-content: center; align-items: center;
+            z-index: 250; background: rgba(0,0,0,0.9);
+        }
+
+        .rgb-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem; text-align: center;
+            background: linear-gradient(90deg, #ff0000, #ff0080, #ff00ff, #ff4d4d, #ff0000);
+            background-size: 300%; -webkit-background-clip: text; color: transparent;
+            animation: rgb-text 4s linear infinite;
+            opacity: 0; transform: scale(0.5);
+            transition: all 1s ease;
+            padding: 20px;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 85, 0.5));
+        }
+
+        /* --- ৫. স্ক্রিন ৩: সিকিউরিটি (গ্লাস প্যানেল) --- */
+        #security-screen {
+            position: absolute; width: 100%; height: 100%;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 200; background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            opacity: 0; transition: opacity 1s;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 85, 0.3);
+            border-radius: 20px; padding: 40px;
+            box-shadow: 0 0 50px rgba(255, 0, 85, 0.2);
+            text-align: center; width: 90%; max-width: 350px;
+            position: relative; overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, rgba(255, 0, 85, 0.6), transparent);
+            animation: rotate 4s linear infinite; z-index: -1;
+        }
+
+        .title-sec {
+            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
+            color: #fff; text-shadow: 0 0 10px #ff0055; margin-bottom: 20px;
+        }
+
+        .pass-input {
+            width: 100%; padding: 12px; border-radius: 10px;
+            background: rgba(0,0,0,0.6); border: 2px solid #ff0055;
+            color: #fff; font-family: 'Orbitron', sans-serif;
+            font-size: 20px; text-align: center; letter-spacing: 3px;
+            outline: none; margin-bottom: 20px;
+            transition: 0.3s;
         }
         .pass-input:focus { box-shadow: 0 0 25px #ff0055; }
 
         .unlock-btn {
-            padding: 12px 50px; border-radius: 50px; border: none;
-            background: linear-gradient(90deg, #ff0055, #ff5e00); 
-            color: white; font-size: 18px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
-            transition: transform 0.2s;
+            width: 100%; padding: 12px; border-radius: 30px; border: none;
+            background: linear-gradient(45deg, #ff0055, #ff4d4d);
+            color: white; font-family: 'Orbitron', sans-serif; font-weight: bold;
+            cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+            font-size: 16px; transition: transform 0.2s;
         }
         .unlock-btn:active { transform: scale(0.95); }
-        .error-msg { color: #ff4444; margin-top: 15px; min-height: 20px; font-weight: 600;}
 
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        /* --- ৬. স্ক্রিন ৪: ভিডিও প্লেয়ার (আল্ট্রা RGB রিং) --- */
+        #video-container {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 100; opacity: 0; pointer-events: none;
+            transition: opacity 1.5s; background: #000;
         }
-        .shake { animation: shake 0.4s; border-color: red; }
-        @keyframes shake { 0% {transform: translateX(0);} 25% {transform: translateX(-10px);} 75% {transform: translateX(10px);} }
+
+        .rgb-ultra {
+            position: relative; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
+        }
+
+        .rgb-ultra::before {
+            content: ''; position: absolute; width: 150%; height: 150%;
+            background: conic-gradient(
+                #ff0000, #ff00ff, #ff0055, #ffcc00, 
+                #ff0000, #ff0080, #ff4400, #ff0000
+            ); /* রোজ থিম কালার */
+            animation: spin 3s linear infinite;
+            filter: blur(30px); opacity: 0.9;
+        }
+
+        .video-box {
+            position: absolute; inset: 5px;
+            background: #000; border-radius: 15px; overflow: hidden;
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.9);
+            z-index: 2;
+        }
+
+        iframe {
+            width: 100%; height: 100%; border: none;
+            position: absolute; top: 0; left: 0;
+            transform: scale(1.05); pointer-events: none;
+        }
+
+        /* --- অ্যানিমেশন --- */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes rgb-text { 0% { background-position: 0%; } 100% { background-position: 300%; } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        @keyframes glow { 0% { box-shadow: 0 0 10px #ff0055; } 100% { box-shadow: 0 0 30px #ff0055, 0 0 10px white; } }
+        .shake { animation: shake 0.4s; border-color: red !important; }
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-10px);} 75% {transform: translateX(10px);} }
 
     </style>
 </head>
 <body>
 
-    <!-- RGB কন্টেইনার -->
-    <div class="rgb-container">
-        
-        <!-- ভিডিও রাখার জায়গা -->
-        <div class="video-mask">
-            <div id="player"></div>
-        </div>
+    <!-- ব্যাকগ্রাউন্ড পাপড়ি -->
+    <div id="galaxy-bg"></div>
 
+    <!-- ১. ওয়েলকাম -->
+    <div id="welcome-screen">
+        <div class="neon-rose">🌹</div>
+        <button class="start-btn" onclick="startJourney()">OPEN GIFT</button>
     </div>
 
-    <!-- লক স্ক্রিন (সামনে থাকবে) -->
+    <!-- ২. টেক্সট শো -->
+    <div id="text-screen">
+        <h1 class="rgb-text" id="msg-text"></h1>
+    </div>
+
+    <!-- ৩. সিকিউরিটি -->
     <div id="security-screen">
-        <div class="rose-icon">🌹</div>
-        <h1>Happy Rose Day</h1>
-        <input type="password" id="password" class="pass-input" placeholder="Password" maxlength="10">
-        <button class="unlock-btn" onclick="checkPass()">OPEN 🎁</button>
-        <div class="error-msg" id="error-text"></div>
+        <div class="glass-card">
+            <div style="font-size:50px; margin-bottom:15px;">💍</div>
+            <div class="title-sec">Only Priyanka's Heart...</div>
+            <input type="number" id="password" class="pass-input" placeholder="CODE" inputmode="numeric">
+            <button class="unlock-btn" onclick="checkPass()">UNLOCK ROSE</button>
+            <p id="error-msg" style="color:#ff4444; margin-top:15px; font-size:14px; font-weight:600;"></p>
+        </div>
+    </div>
+
+    <!-- ৪. ভিডিও -->
+    <div id="video-container">
+        <div class="rgb-ultra">
+            <div class="video-box">
+                <div id="player"></div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // ==========================================
-        // সেটিংস (শুধু এই অংশ পরিবর্তন করবেন)
-        // ==========================================
-        var youtubeVideoID = "XQFBMRZ0kVg"; // আপনার Shorts ভিডিওর আইডি
-        var secretPass = "1234"; // পাসওয়ার্ড
+        // ============================
+        // সেটিংস
+        // ============================
+        const YOUTUBE_ID = "XQFBMRZ0kVg"; // আপনার রোজ ডের ভিডিও আইডি
+        const PASSCODE = "9163010881";    // পাসওয়ার্ড
+        
+        const msgList = [
+            "প্রিয়তমা প্রিয়াঙ্কা...",
+            "একটি গোলাপ শুধু ফুল নয়...",
+            "এটি আমার ভালোবাসার প্রতীক...",
+            "তোমার জন্য একটি ছোট্ট উপহার...",
+            "পাসওয়ার্ড দিয়ে গ্রহণ করো ❤️"
+        ];
 
-        // ইউটিউব API
+        // ============================
+        // লজিক
+        // ============================
+        
+        // ১. ব্যাকগ্রাউন্ড পাপড়ি বৃষ্টি
+        function createPetals() {
+            const container = document.getElementById('galaxy-bg');
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.innerHTML = Math.random() > 0.5 ? '🌹' : '❤️';
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.top = '-50px';
+                petal.style.animationDuration = Math.random() * 5 + 5 + 's';
+                petal.style.opacity = Math.random();
+                container.appendChild(petal);
+                setTimeout(() => petal.remove(), 10000);
+            }, 300);
+        }
+        createPetals();
+
+        // ২. ইউটিউব লোড
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -173,44 +258,92 @@
         var player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                videoId: youtubeVideoID,
+                videoId: YOUTUBE_ID,
                 playerVars: {
-                    'autoplay': 0, 'controls': 0, 'showinfo': 0,
-                    'rel': 0, 'loop': 1, 'playlist': youtubeVideoID, 
+                    'autoplay': 0, 'controls': 0, 'showinfo': 0, 'rel': 0, 
+                    'loop': 1, 'playlist': YOUTUBE_ID, 
                     'playsinline': 1, 'modestbranding': 1, 'iv_load_policy': 3
-                },
-                events: { 'onReady': onPlayerReady }
+                }
             });
         }
 
-        function onPlayerReady(event) {
-            // ভিডিও লোড হয়েছে
+        // ৩. জার্নি শুরু
+        function startJourney() {
+            const welcome = document.getElementById('welcome-screen');
+            const textScreen = document.getElementById('text-screen');
+            
+            welcome.style.opacity = 0;
+            setTimeout(() => {
+                welcome.style.display = 'none';
+                textScreen.style.display = 'flex';
+                playTextSequence();
+            }, 1000);
         }
 
-        function checkPass() {
-            var input = document.getElementById('password');
-            var error = document.getElementById('error-text');
-            var lockScreen = document.getElementById('security-screen');
+        // ৪. টেক্সট সিকোয়েন্স
+        function playTextSequence() {
+            let i = 0;
+            const textEl = document.getElementById('msg-text');
+            const textScreen = document.getElementById('text-screen');
+            const secScreen = document.getElementById('security-screen');
 
-            if(input.value === secretPass) {
+            function next() {
+                if (i < msgList.length) {
+                    textEl.style.opacity = 0;
+                    textEl.style.transform = "scale(0.5)";
+                    
+                    setTimeout(() => {
+                        textEl.innerText = msgList[i];
+                        textEl.style.opacity = 1;
+                        textEl.style.transform = "scale(1)";
+                        i++;
+                        setTimeout(next, 3000); // ৩ সেকেন্ড পর পর
+                    }, 800);
+                } else {
+                    setTimeout(() => {
+                        textScreen.style.display = 'none';
+                        secScreen.style.display = 'flex';
+                        setTimeout(() => secScreen.style.opacity = 1, 100);
+                    }, 1000);
+                }
+            }
+            next();
+        }
+
+        // ৫. পাসওয়ার্ড চেক
+        function checkPass() {
+            const input = document.getElementById('password');
+            const error = document.getElementById('error-msg');
+            const secScreen = document.getElementById('security-screen');
+            const vidContainer = document.getElementById('video-container');
+
+            if (input.value === PASSCODE) {
                 input.blur();
                 
-                // ১. লক স্ক্রিন সরে যাবে
-                lockScreen.style.transform = "translateY(-100%)";
+                // আনলক এনিমেশন
+                secScreen.style.transform = "scale(1.5)";
+                secScreen.style.opacity = 0;
+                secScreen.style.transition = "all 0.8s ease";
                 
-                // ২. সাউন্ড অন করে ভিডিও প্লে হবে
-                if(player && player.playVideo) {
-                    player.unMute();
-                    player.setVolume(100);
-                    player.playVideo();
-                }
+                setTimeout(() => {
+                    vidContainer.style.opacity = 1;
+                    vidContainer.style.pointerEvents = "auto";
+                    
+                    if (player) {
+                        player.unMute();
+                        player.setVolume(100);
+                        player.playVideo();
+                    }
+                }, 800);
+
             } else {
-                error.innerText = "Wrong Password! 💔";
+                error.innerText = "ভুল পাসওয়ার্ড! 🥺";
                 input.classList.add('shake');
                 input.value = "";
                 setTimeout(() => input.classList.remove('shake'), 400);
             }
         }
+
     </script>
 </body>
 </html>
