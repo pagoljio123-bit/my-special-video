@@ -5,62 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Happy Rose Day, Priyanka ❤️</title>
     
-    <!-- প্রিমিয়াম ফন্ট -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Orbitron:wght@500;700&family=Hind+Siliguri:wght@400;600&family=Great+Vibes&family=Cinzel:wght@600&display=swap" rel="stylesheet">
+    <!-- ফন্ট ইমপোর্ট -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Orbitron:wght@500;700&family=Hind+Siliguri:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
     <style>
-        /* --- ১. গ্লোবাল সেটআপ --- */
+        /* --- ১. বেসিক সেটআপ --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { 
             height: 100%; width: 100%; 
-            background-color: #000; 
+            background-color: #050000; 
             overflow: hidden; 
             font-family: 'Hind Siliguri', sans-serif;
-            perspective: 1000px; /* 3D গভীরতা */
+            display: flex; justify-content: center; align-items: center;
         }
 
-        /* --- ২. ডায়নামিক ব্যাকগ্রাউন্ড --- */
-        #universe-bg {
+        /* --- ২. ব্যাকগ্রাউন্ড --- */
+        #galaxy-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #1a0005 0%, #000000 100%);
-            z-index: 0;
+            background: radial-gradient(circle at center, #2b0000 0%, #000000 100%);
+            z-index: 0; overflow: hidden;
         }
-
-        #particle-canvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
-        }
-
-        /* ইমোজি রেইন কন্টেইনার */
-        #emoji-rain {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 500; overflow: hidden; display: none;
-        }
-        .falling-emoji {
-            position: absolute; font-size: 25px; top: -50px;
+        
+        /* পাপড়ি এনিমেশন (ভিডিওর সময় বন্ধ থাকবে) */
+        .petal {
+            position: absolute; font-size: 20px;
             animation: fall linear forwards;
+            text-shadow: 0 0 5px rgba(255, 0, 85, 0.5);
+            z-index: 1; /* ভিডিওর নিচে থাকবে */
         }
 
-        /* --- ৩. ওয়েলকাম স্ক্রিন (3D Rose) --- */
+        /* --- ৩. ওয়েলকাম স্ক্রিন --- */
         #welcome-screen {
             position: absolute; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 300; transition: opacity 1s ease;
-            backdrop-filter: blur(3px);
+            backdrop-filter: blur(5px);
         }
 
-        .rose-3d-container {
-            width: 150px; height: 150px;
-            transform-style: preserve-3d;
-            animation: float 4s ease-in-out infinite;
-            margin-bottom: 30px;
-        }
-        
-        .rose-icon {
-            font-size: 100px; 
-            filter: drop-shadow(0 0 20px #ff0055) drop-shadow(0 0 60px #ff0000);
-            transform: translateZ(50px);
-            animation: rotate3D 10s linear infinite;
+        .neon-rose {
+            font-size: 100px; margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px #ff0055) drop-shadow(0 0 40px #ff0000);
+            animation: float 3s ease-in-out infinite;
         }
 
         .start-btn {
@@ -69,33 +54,27 @@
             font-size: 16px; color: #fff;
             background: linear-gradient(45deg, #ff0055, #ff0000);
             border: none; border-radius: 50px;
-            box-shadow: 0 0 30px rgba(255, 0, 85, 0.6);
-            cursor: pointer; position: relative; overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+            cursor: pointer;
             text-transform: uppercase; letter-spacing: 2px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            z-index: 301;
-        }
-        .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(255, 0, 85, 0.9); }
-        .start-btn::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
-            transform: rotate(45deg); animation: shine 3s infinite;
+            animation: glow 2s infinite alternate;
         }
 
-        /* --- ৪. টেক্সট স্ক্রিন (Skip Button সহ) --- */
+        /* --- ৪. টেক্সট স্ক্রিন (Skip সহ) --- */
         #text-screen {
             position: absolute; width: 100%; height: 100%;
             display: none; justify-content: center; align-items: center;
-            z-index: 250; background: rgba(0,0,0,0.9);
+            z-index: 250; background: rgba(0,0,0,0.8);
         }
 
-        .rgb-text {
+        .msg-text {
             font-family: 'Great Vibes', cursive;
             font-size: 3rem; text-align: center;
-            background: linear-gradient(90deg, #ff0055, #ffcc00, #ff0055);
-            background-size: 200%; -webkit-background-clip: text; color: transparent;
-            animation: rgb-flow 3s linear infinite;
-            padding: 20px; text-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+            background: linear-gradient(90deg, #ff0055, #ffcccc, #ff0055);
+            -webkit-background-clip: text; color: transparent;
+            text-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+            padding: 20px; opacity: 0; transform: scale(0.8);
+            transition: all 0.8s ease;
         }
 
         #skip-btn {
@@ -106,119 +85,110 @@
             cursor: pointer; backdrop-filter: blur(5px);
             transition: 0.3s;
         }
-        #skip-btn:hover { background: #ff0055; color: white; }
 
-        /* --- ৫. সিকিউরিটি (3D Glass Card) --- */
+        /* --- ৫. সিকিউরিটি স্ক্রিন --- */
         #security-screen {
             position: absolute; width: 100%; height: 100%;
-            display: none; justify-content: center; align-items: center;
-            z-index: 200; transition: opacity 1s;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 200; background: rgba(0,0,0,0.9);
+            opacity: 0; transition: opacity 1s;
         }
 
-        .glass-card-3d {
+        .glass-card {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 0, 85, 0.3);
             border-radius: 20px; padding: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 0, 85, 0.1);
-            text-align: center; width: 90%; max-width: 360px;
-            transform-style: preserve-3d;
-            transition: transform 0.1s;
-            position: relative; overflow: hidden;
+            box-shadow: 0 0 50px rgba(255, 0, 85, 0.2);
+            text-align: center; width: 90%; max-width: 350px;
         }
 
-        /* RGB Border Animation */
-        .glass-card-3d::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(transparent, #ff0055, #ffcc00, #ff0055, transparent);
-            animation: spin 4s linear infinite; z-index: -1;
-        }
-        .inner-bg {
-            position: absolute; inset: 3px; background: #0a0a0a; border-radius: 18px; z-index: -1;
-        }
-
-        .input-group { position: relative; margin: 20px 0; }
         .pass-input {
-            width: 100%; padding: 12px; border-radius: 10px;
-            background: rgba(255,255,255,0.05); border: 1px solid #333;
-            color: #ff0055; font-family: 'Orbitron', sans-serif;
-            font-size: 22px; text-align: center; letter-spacing: 4px;
-            outline: none; transition: 0.3s;
+            width: 100%; padding: 15px; border-radius: 10px;
+            background: rgba(0,0,0,0.5); border: 2px solid #ff0055;
+            color: #fff; font-family: 'Orbitron', sans-serif;
+            font-size: 22px; text-align: center; letter-spacing: 5px;
+            outline: none; margin-bottom: 20px;
+            transition: 0.3s;
         }
-        .pass-input:focus { border-color: #ff0055; box-shadow: 0 0 15px rgba(255, 0, 85, 0.3); }
+        .pass-input:focus { box-shadow: 0 0 20px #ff0055; }
 
         .unlock-btn {
             width: 100%; padding: 12px; border-radius: 30px; border: none;
-            background: linear-gradient(90deg, #ff0055, #ff4444);
-            color: white; font-family: 'Orbitron'; font-weight: bold;
-            cursor: pointer; box-shadow: 0 5px 20px rgba(255, 0, 85, 0.4);
-            font-size: 16px; transition: transform 0.2s;
+            background: linear-gradient(45deg, #ff0055, #b3003b);
+            color: white; font-family: 'Orbitron', sans-serif; font-weight: bold;
+            cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+            font-size: 16px;
         }
-        .unlock-btn:hover { transform: translateY(-3px); }
-        .unlock-btn:active { transform: scale(0.95); }
 
-        /* --- ৬. ভিডিও প্লেয়ার (Advanced) --- */
+        /* --- ৬. ভিডিও প্লেয়ার & RGB বর্ডার --- */
         #video-container {
             position: absolute; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            display: flex; justify-content: center; align-items: center;
             z-index: 100; opacity: 0; pointer-events: none;
-            transition: opacity 1.5s; background: #000;
+            background: #000;
+            transition: opacity 1s ease;
         }
 
-        .rgb-ring-container {
-            position: relative; width: 100%; height: 100%;
+        /* RGB অ্যানিমেশন কন্টেইনার */
+        .rgb-border-box {
+            position: relative;
+            width: 100vw; height: 100vh; /* ফুল স্ক্রিন */
             display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* ঘূর্ণায়মান RGB লাইট */
+        .rgb-border-box::before {
+            content: '';
+            position: absolute;
+            width: 150%; height: 150%;
+            background: conic-gradient(
+                #ff0000, #ff0080, #ff00ff, #8000ff, 
+                #0000ff, #00ffff, #00ff80, #00ff00, 
+                #80ff00, #ffff00, #ff8000, #ff0000
+            );
+            animation: spin 4s linear infinite;
+            z-index: 0;
+        }
+
+        /* ভিডিওর ভেতরের কালো বক্স (বর্ডার ইফেক্ট তৈরি করতে) */
+        .video-wrapper {
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px; /* ৫ পিক্সেল বর্ডার */
+            background: #000;
+            z-index: 1;
+            border-radius: 10px; /* হালকা রাউন্ডেড */
             overflow: hidden;
         }
 
-        /* Ultra RGB Ring */
-        .rgb-ring-container::before {
-            content: ''; position: absolute; width: 150%; height: 150%;
-            background: conic-gradient(#ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
-            animation: spin 5s linear infinite; opacity: 0.8; filter: blur(50px);
-        }
-
-        .video-box {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 2;
-        }
-
         iframe {
-            width: 100%; height: 100%; border: none;
-            position: absolute; top: 0; left: 0;
-            transform: scale(1.02); pointer-events: auto;
-        }
-
-        /* স্পেশাল মেসেজ বাটন */
-        .special-btn {
-            position: absolute; bottom: 80px; z-index: 10;
-            padding: 12px 30px; background: rgba(0,0,0,0.6);
-            border: 2px solid #ffd700; color: #ffd700;
-            font-family: 'Orbitron'; border-radius: 50px;
-            cursor: pointer; font-size: 14px;
-            animation: pulseGlow 2s infinite; display: none; /* ভিডিওর পর আসবে */
+            width: 100%; height: 100%;
+            border: none;
+            /* Shorts-এর জন্য জুম ফিক্স */
+            transform: scale(1.02);
         }
 
         /* --- ৭. অ্যাডমিন প্যানেল --- */
         #admin-screen {
             display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 400; background: #111; padding: 20px; overflow-y: auto;
+            z-index: 400; background: #050505; padding: 20px; overflow-y: auto;
             font-family: 'Courier New', monospace;
         }
         .log-entry {
-            background: #0f1a0f; border-left: 3px solid #00ff00;
-            padding: 10px; margin-bottom: 8px; border-radius: 4px;
-            font-size: 11px; color: #00ff00;
+            background: rgba(0, 255, 85, 0.1); border-left: 3px solid #00ff55;
+            padding: 10px; margin-bottom: 10px; border-radius: 4px;
+            font-size: 12px; color: #00ff55;
         }
 
-        /* --- অ্যানিমেশন কি-ফ্রেম --- */
+        /* --- এনিমেশনস --- */
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        @keyframes rotate3D { 0% { transform: translateZ(50px) rotateY(0deg); } 100% { transform: translateZ(50px) rotateY(360deg); } }
-        @keyframes rgb-flow { 0% { background-position: 0%; } 100% { background-position: 200%; } }
-        @keyframes shine { 100% { left: 100%; } }
-        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
-        @keyframes pulseGlow { 0% { box-shadow: 0 0 10px #ffd700; transform: scale(1); } 50% { box-shadow: 0 0 30px #ffd700; transform: scale(1.05); } 100% { box-shadow: 0 0 10px #ffd700; transform: scale(1); } }
+        @keyframes fall { 
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes glow { 0% { box-shadow: 0 0 10px #ff0055; } 100% { box-shadow: 0 0 30px #ff0055, 0 0 10px white; } }
         .shake { animation: shake 0.4s; border-color: red !important; }
         @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-10px);} 75% {transform: translateX(10px);} }
 
@@ -226,73 +196,56 @@
 </head>
 <body>
 
-    <!-- 3D ব্যাকগ্রাউন্ড -->
-    <div id="universe-bg"></div>
-    <canvas id="particle-canvas"></canvas>
-    <div id="emoji-rain"></div>
+    <!-- ব্যাকগ্রাউন্ড -->
+    <div id="galaxy-bg"></div>
 
     <!-- ১. ওয়েলকাম স্ক্রিন -->
-    <section id="welcome-screen">
-        <div class="rose-3d-container">
-            <div class="rose-icon">🌹</div>
-        </div>
-        <h1 style="color:white; font-family:'Great Vibes'; font-size:2.5rem; margin-bottom:20px; text-shadow:0 0 10px #ff0055;">For My Priyanka</h1>
+    <div id="welcome-screen">
+        <div class="neon-rose">🌹</div>
         <button class="start-btn" onclick="startJourney()">OPEN GIFT</button>
-    </section>
+    </div>
 
-    <!-- ২. টেক্সট সিকোয়েন্স -->
-    <section id="text-screen">
-        <h1 class="rgb-text" id="msg-text"></h1>
+    <!-- ২. টেক্সট স্ক্রিন -->
+    <div id="text-screen">
+        <h1 class="msg-text" id="msg-display"></h1>
         <button id="skip-btn" onclick="skipSequence()">SKIP INTRO >></button>
-    </section>
+    </div>
 
-    <!-- ৩. সিকিউরিটি (3D Glass Card) -->
-    <section id="security-screen">
-        <div class="glass-card-3d" id="tilt-card">
-            <div class="inner-bg"></div>
-            <div style="font-size:50px; margin-bottom:15px; animation:float 3s infinite;">🔐</div>
-            <h2 style="color:#fff; font-family:'Dancing Script'; font-size:2rem; margin-bottom:20px;">Unlock My Heart</h2>
-            
-            <div class="input-group">
-                <input type="number" id="password" class="pass-input" placeholder="CODE" inputmode="numeric">
-            </div>
-            
+    <!-- ৩. সিকিউরিটি স্ক্রিন -->
+    <div id="security-screen">
+        <div class="glass-card">
+            <div style="font-size:50px; margin-bottom:15px;">🔒</div>
+            <h2 style="color:#fff; font-family:'Great Vibes'; font-size:2rem; margin-bottom:20px;">Unlock My Heart</h2>
+            <input type="number" id="password" class="pass-input" placeholder="CODE" inputmode="numeric">
             <button class="unlock-btn" onclick="checkPass()">UNLOCK ROSE</button>
-            <p id="error-msg" style="color:#ff4444; margin-top:10px; font-size:13px; min-height:20px;"></p>
+            <p id="error-msg" style="color:#ff4444; margin-top:15px; font-size:13px;"></p>
         </div>
-    </section>
+    </div>
 
-    <!-- ৪. ভিডিও প্লেয়ার -->
-    <section id="video-container">
-        <div class="rgb-ring-container">
-            <div class="video-box">
+    <!-- ৪. ভিডিও কন্টেইনার (RGB Border + Video) -->
+    <div id="video-container">
+        <div class="rgb-border-box">
+            <div class="video-wrapper">
                 <div id="player"></div>
             </div>
-            <!-- স্পেশাল বাটন -->
-            <button class="special-btn" onclick="window.location.href='priyanka_motivation.html'">
-                GO TO SPECIAL MESSAGE ✨
-            </button>
         </div>
-    </section>
+    </div>
 
     <!-- ৫. অ্যাডমিন প্যানেল -->
-    <section id="admin-screen">
+    <div id="admin-screen">
         <div style="border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:15px; display:flex; justify-content:space-between;">
-            <h2 style="color:#ffd700; font-family:'Orbitron';">SPY LOGS</h2>
-            <div>
-                <button onclick="window.location.reload()" style="background:#333; color:white; border:none; padding:5px; margin-right:5px;">EXIT</button>
-                <button onclick="clearAllData()" style="background:#ff0000; color:white; border:none; padding:5px;">CLEAR</button>
-            </div>
+            <h2 style="color:#ffd700;">SPY LOGS (Rose)</h2>
+            <button onclick="clearAllData()" style="background:#ff0000; color:white; border:none; padding:5px 10px; border-radius:5px;">CLEAR</button>
         </div>
         <div id="log-display"></div>
-    </section>
+    </div>
 
-    <!-- Firebase Logic -->
+    <!-- স্ক্রিপ্ট -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-        // কনফিগারেশন
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyAY97_iFryUusBSTrJsBzSIFRnIovcA4LY",
             authDomain: "my-photo-301f2.firebaseapp.com",
@@ -306,17 +259,20 @@
         const db = getFirestore(app);
         const logRef = collection(db, "priyanka_spy_pro");
 
-        const VIDEO_ID = "XQFBMRZ0kVg"; // আপনার দেওয়া ভিডিও
+        // কনফিগারেশন
+        const YOUTUBE_ID = "Gs8yar9YeNA"; // আপনার দেওয়া ভিডিও আইডি
         const USER_PASS = "9163010881";
         const ADMIN_PASS = "7602594913";
 
-        const msgList = [
+        const messages = [
             "প্রিয়তমা প্রিয়াঙ্কা... ❤️",
             "একটি গোলাপ শুধু ফুল নয়...",
             "এটি আমার ভালোবাসার প্রতীক...",
             "তোমার হাসিতেই আমার পৃথিবী...",
             "পাসওয়ার্ড দিয়ে ভালোবাসা গ্রহণ করো 🌹"
         ];
+
+        let petalInterval; // পাপড়ি কন্ট্রোলার
 
         // --- YouTube API ---
         var tag = document.createElement('script');
@@ -327,23 +283,60 @@
         var player;
         window.onYouTubeIframeAPIReady = function() {
             player = new YT.Player('player', {
-                videoId: VIDEO_ID,
+                videoId: YOUTUBE_ID,
                 playerVars: {
                     'autoplay': 0, 'controls': 0, 'showinfo': 0, 'rel': 0, 
-                    'loop': 1, 'playlist': VIDEO_ID, 
+                    'loop': 1, 'playlist': YOUTUBE_ID, 
                     'playsinline': 1, 'modestbranding': 1, 'iv_load_policy': 3
                 },
                 events: {
-                    'onReady': (event) => { event.target.mute(); } // সেফটির জন্য মিউট
+                    'onReady': (event) => {
+                        event.target.mute(); // পলিসি ফিক্স
+                        // এইচডি কোয়ালিটি সেট করার চেষ্টা
+                        if(event.target.setPlaybackQuality) {
+                            event.target.setPlaybackQuality('hd1080');
+                        }
+                    }
                 }
             });
         }
 
-        // --- Tracking System ---
+        // --- পাপড়ি এনিমেশন ফাংশন ---
+        function startPetals() {
+            const container = document.getElementById('galaxy-bg');
+            petalInterval = setInterval(() => {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.innerHTML = Math.random() > 0.5 ? '🌹' : '❤️';
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.top = '-50px';
+                petal.style.animationDuration = Math.random() * 3 + 4 + 's'; // পড়ার গতি
+                petal.style.opacity = Math.random();
+                container.appendChild(petal);
+                
+                // ৫ সেকেন্ড পর রিমুভ
+                setTimeout(() => petal.remove(), 5000);
+            }, 300); // প্রতি ৩০০ms এ নতুন পাপড়ি
+        }
+
+        function stopPetals() {
+            clearInterval(petalInterval); // নতুন পাপড়ি তৈরি বন্ধ
+            // স্ক্রিনে থাকা পাপড়িগুলো মুছে ফেলা
+            const existingPetals = document.querySelectorAll('.petal');
+            existingPetals.forEach(p => p.remove());
+        }
+
+        // --- ট্র্যাকিং সিস্টেম (ডিভাইস ডিটেকশন) ---
         function getDeviceName() {
             const ua = navigator.userAgent;
-            if(ua.match(/Android/i)) return "Android Device";
-            if(ua.match(/iPhone/i)) return "iPhone";
+            if(ua.match(/Android/i)) {
+                if(ua.match(/Tecno/i)) return "Tecno Mobile";
+                if(ua.match(/Realme/i)) return "Realme Phone";
+                if(ua.match(/Samsung/i)) return "Samsung Galaxy";
+                if(ua.match(/Oppo/i)) return "Oppo Phone";
+                if(ua.match(/Vivo/i)) return "Vivo Phone";
+                return "Android Device";
+            } else if(ua.match(/iPhone/i)) return "iPhone";
             return "PC/Laptop";
         }
 
@@ -354,13 +347,13 @@
                     fullUA: navigator.userAgent,
                     time: serverTimestamp(),
                     localTime: new Date().toLocaleString("bn-BD"),
-                    action: "Opened Rose Day Video 🌹"
+                    action: "Opened Rose Video 🌹"
                 });
             } catch(e) {}
         }
 
-        // --- Admin Functions ---
-        window.fetchLogs = async function() { // Global Scope
+        // --- অ্যাডমিন প্যানেল ---
+        async function fetchLogs() {
             const container = document.getElementById('log-display');
             container.innerHTML = "<p style='color:#aaa;'>Loading...</p>";
             const q = query(logRef, orderBy("time", "desc"));
@@ -372,209 +365,108 @@
                     <div class="log-entry">
                         <strong style="color:white;">${data.model}</strong> | <span style="color:#aaa;">${data.localTime}</span><br>
                         <span style="color:#ff0055;">${data.action}</span>
+                        <div style="font-size:9px; color:#555;">${data.fullUA}</div>
                     </div>`;
             });
         }
 
         window.clearAllData = async function() {
-            if(confirm("Delete ALL logs?")) {
+            if(confirm("Delete All Logs?")) {
                 const snap = await getDocs(logRef);
                 snap.forEach(doc => deleteDoc(doc.ref));
-                alert("Cleaned.");
-                window.fetchLogs();
+                alert("Deleted.");
+                fetchLogs();
             }
         }
 
-        // --- UI Logic & Animations ---
-        
-        // ১. জার্নি শুরু
+        // --- লজিক ফ্লো ---
+
         window.startJourney = function() {
-            const welcome = document.getElementById('welcome-screen');
-            welcome.style.opacity = 0;
+            document.getElementById('welcome-screen').style.opacity = 0;
             setTimeout(() => {
-                welcome.style.display = 'none';
+                document.getElementById('welcome-screen').style.display = 'none';
                 document.getElementById('text-screen').style.display = 'flex';
-                playTextSequence();
+                startPetals(); // পাপড়ি শুরু
+                playMessages();
             }, 1000);
         }
 
-        // ২. টেক্সট এনিমেশন
-        function playTextSequence() {
+        function playMessages() {
             let i = 0;
-            const textEl = document.getElementById('msg-text');
+            const textEl = document.getElementById('msg-display');
             const textScreen = document.getElementById('text-screen');
-            const secScreen = document.getElementById('security-screen');
 
             function next() {
-                if (textScreen.style.display === 'none') return; // স্কিপ করা হলে থামবে
+                if (textScreen.style.display === 'none') return;
                 
-                if (i < msgList.length) {
+                if (i < messages.length) {
                     textEl.style.opacity = 0;
-                    textEl.style.transform = "scale(0.5)";
+                    textEl.style.transform = "scale(0.8)";
                     setTimeout(() => {
-                        textEl.innerText = msgList[i];
+                        textEl.innerText = messages[i];
                         textEl.style.opacity = 1;
                         textEl.style.transform = "scale(1)";
                         i++;
                         setTimeout(next, 2500);
                     }, 500);
                 } else {
-                    setTimeout(() => {
-                        window.skipSequence();
-                    }, 1000);
+                    window.skipSequence();
                 }
             }
             next();
         }
 
-        // ৩. স্কিপ ফিচার
         window.skipSequence = function() {
             document.getElementById('text-screen').style.display = 'none';
             const secScreen = document.getElementById('security-screen');
             secScreen.style.display = 'flex';
             setTimeout(() => secScreen.style.opacity = 1, 100);
+            // পাপড়ি সিকিউরিটি স্ক্রিনেও চলবে, ভিডিওর সময় বন্ধ হবে
         }
 
-        // ৪. Enter Key Support
-        document.getElementById("password").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                window.checkPass();
-            }
-        });
-
-        // ৫. পাসওয়ার্ড চেক
         window.checkPass = function() {
             const input = document.getElementById('password');
             const error = document.getElementById('error-msg');
-            const secScreen = document.getElementById('security-screen');
-            const vidContainer = document.getElementById('video-container');
             const val = input.value;
 
             if (val === USER_PASS) {
-                // User Success
+                // User Login
                 input.blur();
                 trackUser();
-                startFireworks(); // আতশবাজি
-                startEmojiRain(); // ইমোজি বৃষ্টি
+                
+                // ১. পাপড়ি বন্ধ করা (আপনার রিকোয়ারমেন্ট)
+                stopPetals();
 
-                // গ্লাস কার্ড ফেড আউট
-                secScreen.style.transition = "all 0.8s ease";
-                secScreen.style.transform = "scale(1.2)";
-                secScreen.style.opacity = 0;
+                // ২. স্ক্রিন হাইড
+                document.getElementById('security-screen').style.display = 'none';
+                
+                // ৩. ভিডিও কন্টেইনার শো
+                const vidContainer = document.getElementById('video-container');
+                vidContainer.style.opacity = 1;
+                vidContainer.style.pointerEvents = "auto";
 
-                setTimeout(() => {
-                    secScreen.style.display = 'none';
-                    vidContainer.style.opacity = 1;
-                    vidContainer.style.pointerEvents = "auto";
-                    
-                    // ভিডিও প্লে এবং আনমিউট
-                    if (player && player.playVideo) {
-                        player.unMute();
-                        player.setVolume(100);
-                        player.playVideo();
-                        if(player.setPlaybackQuality) player.setPlaybackQuality('hd1080');
-                    }
-
-                    // ৫ সেকেন্ড পর স্পেশাল বাটন দেখাবে
-                    setTimeout(() => {
-                        document.querySelector('.special-btn').style.display = 'block';
-                    }, 5000);
-
-                }, 800);
+                // ৪. ভিডিও প্লে
+                if (player && player.playVideo) {
+                    player.unMute();
+                    player.setVolume(100);
+                    player.playVideo();
+                    if(player.setPlaybackQuality) player.setPlaybackQuality('hd1080');
+                }
 
             } else if (val === ADMIN_PASS) {
-                // Admin Login
+                // Admin
                 input.blur();
-                secScreen.style.display = 'none';
+                stopPetals();
+                document.getElementById('security-screen').style.display = 'none';
                 document.getElementById('admin-screen').style.display = 'block';
-                window.fetchLogs();
+                fetchLogs();
             } else {
-                // Wrong Password
                 error.innerText = "ভুল পাসওয়ার্ড! 🥺";
                 input.classList.add('shake');
                 input.value = "";
                 setTimeout(() => input.classList.remove('shake'), 400);
             }
         }
-
-        // --- 3D Glass Card Tilt Effect ---
-        document.addEventListener('mousemove', (e) => {
-            const card = document.getElementById('tilt-card');
-            if(window.innerWidth > 768 && card) { // মোবাইল বাদে
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            }
-        });
-
-        // --- 3D Particles & Visuals ---
-        const canvas = document.getElementById("particle-canvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particles = [];
-        
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width; 
-                this.y = Math.random() * canvas.height;
-                this.z = Math.random() * 2 + 1; // Depth
-                this.size = Math.random() * 3;
-                this.speedY = Math.random() * 1 + 0.5;
-                this.color = Math.random() > 0.6 ? '#ff0055' : '#ffffff';
-            }
-            update() {
-                this.y -= this.speedY / this.z; // Parallax effect
-                if(this.y < 0) {
-                    this.y = canvas.height;
-                    this.x = Math.random() * canvas.width;
-                }
-            }
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size / this.z, 0, Math.PI * 2); // Size based on depth
-                ctx.fill();
-            }
-        }
-
-        function initParticles() { particles = []; for(let i=0; i<100; i++) particles.push(new Particle()); }
-        function animateParticles() { 
-            ctx.clearRect(0,0,canvas.width,canvas.height); 
-            particles.forEach(p => { p.update(); p.draw(); }); 
-            requestAnimationFrame(animateParticles); 
-        }
-        initParticles(); animateParticles();
-
-        // --- Emoji Rain ---
-        function startEmojiRain() {
-            const container = document.getElementById('emoji-rain');
-            container.style.display = 'block';
-            const emojis = ['🌹', '❤️', '🦋', '✨', '💖'];
-            
-            setInterval(() => {
-                const el = document.createElement('div');
-                el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                el.classList.add('falling-emoji');
-                el.style.left = Math.random() * 100 + 'vw';
-                el.style.animationDuration = Math.random() * 2 + 3 + 's';
-                el.style.fontSize = Math.random() * 20 + 20 + 'px';
-                container.appendChild(el);
-                setTimeout(() => el.remove(), 5000);
-            }, 200);
-        }
-
-        // --- Simple Fireworks (Canvas Overlay) ---
-        function startFireworks() {
-            // সিম্পল ফ্ল্যাশ ইফেক্ট
-            const bg = document.getElementById('universe-bg');
-            bg.style.background = "radial-gradient(circle at center, #550000 0%, #000000 100%)";
-            setTimeout(() => {
-                bg.style.background = "radial-gradient(circle at center, #1a0005 0%, #000000 100%)";
-            }, 500);
-        }
-
-        window.addEventListener('resize', ()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; initParticles(); });
 
     </script>
 </body>
